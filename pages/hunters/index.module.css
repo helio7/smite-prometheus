@@ -1,0 +1,13 @@
+.grid-item {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: '100%';
+  border: 1px solid black;
+  background-color: burlywood;
+}
+
+.grid-item .selected {
+  background-color: red;
+}
