@@ -1,7 +1,7 @@
 import Image from "next/image";
 import styles from './index.module.css'
 import LevelInput from "./level-input";
-import { SortedHunter, SortingCriteria } from ".";
+import { SortedHunter, SortingCriteria } from "../../app/hunters/page";
 
 export default function GodsTable({
   gods,
@@ -19,12 +19,14 @@ export default function GodsTable({
   sortingCriteria: SortingCriteria,
 }) {
   const auxArray = [];
-  for (const god of gods) {
-    auxArray.push(god);
-    auxArray.push(god);
-    auxArray.push(god);
-    auxArray.push(god);
-    auxArray.push(god);
+  if (gods) {
+    for (const god of gods) {
+      auxArray.push(god);
+      auxArray.push(god);
+      auxArray.push(god);
+      auxArray.push(god);
+      auxArray.push(god);
+    }
   }
 
   const { criteria } = sortingCriteria;

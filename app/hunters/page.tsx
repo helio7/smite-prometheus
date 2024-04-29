@@ -1,7 +1,7 @@
-import clientPromise from "../../lib/mongodb";
-import type { InferGetServerSidePropsType, GetServerSideProps } from "next";
+"use client";
+
 import Link from "next/link";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import GodsTable from "./gods-table";
 
 export interface SortedHunter {
@@ -13,69 +13,26 @@ export interface SortedHunter {
   damage_per_level: number;
 }
 
-type DbQueryResult = {
-  success: boolean;
-  sortedHunters: SortedHunter[];
-};
-
-export const getServerSideProps: GetServerSideProps<
-  DbQueryResult
-> = async () => {
-  try {
-    await clientPromise;
-    // `await clientPromise` will use the default database passed in the MONGODB_URI
-    // However you can use another database (e.g. myDatabase) by replacing the `await clientPromise` with the following code:
-    //
-    // `const client = await clientPromise`
-    // `const db = client.db("myDatabase")`
-    //
-    // Then you can execute queries against your database like so:
-    // db.find({}) or any of the MongoDB Node Driver commands
-
-    const db = (await clientPromise).db("smite-prometheus").collection("gods");
-
-    const gods = await db.find({}).toArray();
-
-    const sortedHunters = gods.sort((a: any, b: any) => {
-      // Alphabetically
-      return a.name.localeCompare(b.name);
-    }).map((god: any) => {
-      return {
-        codename: god.codename,
-        name: god.name,
-        attack_speed: god.attack_speed,
-        attack_speed_per_level: god.attack_speed_per_level,
-        damage: god.damage,
-        damage_per_level: god.damage_per_level,
-      };
-    });
-
-    return {
-      props: { success: true, sortedHunters },
-    };
-  } catch (e) {
-    console.error(e);
-    return {
-      props: { success: false, sortedHunters: [] },
-    };
-  }
-};
-
 export interface SortingCriteria {
   criteria: 'name' | 'attack_speed' | 'damage' | 'dps';
   direction: 'asc' | 'desc';
 }
 
-export default function HuntersPage({
-  success,
-  sortedHunters,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const [hunters, setHunters] = useState(sortedHunters);
+export default function HuntersPage() {
+  const [hunters, setHunters] = useState([]);
   const [sortingCriteria, setSortingCriteria] = useState({
     criteria: 'name',
     direction: 'asc',
   } as SortingCriteria);
   const [level, setLevel] = useState(20);
+
+  useEffect(() => {
+    fetch('http://localhost:3000/api')
+      .then(res => res.json())
+      .then(data => {
+        setHunters(data.sortedHunters);
+      });
+  }, []);
 
   function recalculate(criteria: string, direction: string, level: number) {
     let sortingCallback;
