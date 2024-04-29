@@ -91,6 +91,7 @@ export default function GodsTable({
                         alt={`${god.name}'s profile picture`}
                         width={54}
                         height={54}
+                        key={index}
                       />
                     </div>;
                     break;
