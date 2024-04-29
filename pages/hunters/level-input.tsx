@@ -31,6 +31,7 @@ export default function LevelInput({
         backgroundColor: 'orange',
         padding: '4px',
         border: '1px solid black',
+        borderRadius: '5px',
       }}>
         <Image
           src={`/ui/up_arrow${level === 20 ? '_disabled' : ''}.png`}

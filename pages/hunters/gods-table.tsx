@@ -45,6 +45,7 @@ export default function GodsTable({
           padding: '4px',
           border: '1px solid black',
           marginBottom: '10px',
+          borderRadius: '5px',
         }}>
           <div className={styles['grid-item']}>Icon</div>
           <div className={styles['grid-item']} style={{
@@ -76,6 +77,7 @@ export default function GodsTable({
             backgroundColor: 'orange',
             padding: '4px',
             border: '1px solid black',
+            borderRadius: '5px',
           }}>
             {
               auxArray.map((god, index) => {
