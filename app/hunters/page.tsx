@@ -27,7 +27,7 @@ export default function HuntersPage() {
   const [level, setLevel] = useState(20);
 
   useEffect(() => {
-    fetch('http://localhost:3000/api')
+    fetch(`${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}/api`)
       .then(res => res.json())
       .then(data => {
         setHunters(data.sortedHunters);
